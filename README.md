@@ -32,7 +32,29 @@ To see the app in your browser, you need to map the port inside the container to
 Run the image using the following command:
 
 ```bash
-docker run --name <container-name> -p <local-port>:3000 <image-name>
+docker run --name <container-name> -p <local-port>:<container-port> <image-name>
 ```
 
 Replace `<local-port>` with the port you want to use on your local machine. For example, `docker run --name my-container -p 4000:3000 my-image` will create a container named `my-container` from the `my-image` image and map port 4000 on your local machine to port 3000 inside the container.
+
+Now when you go to `http://localhost:4000` in your browser, you should see the app.
+
+# Step 4: Stop the container
+
+To stop the container, use the following command:
+
+```bash
+docker stop <container-name>
+```
+
+You can get the container name by running `docker ps`.
+
+# Step 5: Remove the container
+
+To remove the container, use the following command:
+
+```bash
+docker rm <container-name>
+```
+
+For both below commands, you can specify more than one container name. For example, `docker stop my-container my-other-container` will stop both `my-container` and `my-other-container`.
