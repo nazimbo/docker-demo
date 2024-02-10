@@ -26,3 +26,13 @@ When you go to `http://localhost:3000` in your browser, you won't see anything. 
 Your local machine and the container are two separate environments.
 
 # Step 3: Port mapping
+
+To see the app in your browser, you need to map the port inside the container to a port on your local machine.
+
+Run the image using the following command:
+
+```bash
+docker run --name <container-name> -p <local-port>:3000 <image-name>
+```
+
+Replace `<local-port>` with the port you want to use on your local machine. For example, `docker run --name my-container -p 4000:3000 my-image` will create a container named `my-container` from the `my-image` image and map port 4000 on your local machine to port 3000 inside the container.
