@@ -82,12 +82,41 @@ docker run --name <container-name> -p <local-port>:<container-port> -v $(pwd):/u
 
 -v /usr/src/app/node_modules tells Docker to create a volume for the node_modules folder inside the container. This will prevent the node_modules folder from being overwritten by the bind mount.
 
-# Step7: Accessing the container
+When you make change, you still need to restart the container to see it.
 
-To access the container, use the following command:
+To avoid restarting the container every time you make a change, you can use nodemon to automatically restart the app when changes are detected.
 
-```bash
-docker exec -it <container-name> sh
+To do this, you need to install nodemon as a development dependency and use it to start the app in the Dockerfile.
+
+Add the following line to the Dockerfile:
+
+```Dockerfile
+CMD ["npm", "run", "dev"]
 ```
 
-This will open a shell inside the container, allowing you to run commands and check the file system.
+This will start the app using the dev script in package.json, which should start the app using nodemon.
+
+Then, rebuild the image and recreate the container to see the changes.
+
+# Step 7: Build an image from another Dockerfile for development environment
+
+We want to use nodemon only in development environment.
+You can create a new Dockerfile for development environment, for example, Dockerfile.dev.
+
+Then, build the image using the following command:
+
+```bash
+docker build -t <image-name>:<tag> -f Dockerfile.dev .
+```
+
+Replace `<image-name>` with the name and `<tag>` with the tag you want to give to your image. For example, `docker build -t my-image:dev -f Dockerfile.dev .` will create an image named `my-image` with tag `dev`.
+
+# Step 8: Run the image for development environment
+
+Run the image using the following command:
+
+```bash
+docker run --name <container-name> -p <local-port>:<container-port> -v $(pwd):/usr/src/app -v /usr/src/app/node_modules <image-name>
+```
+
+Now when you make changes to the app code, nodemon will automatically restart the app inside the container.
