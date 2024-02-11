@@ -2,7 +2,7 @@
 FROM node:alpine
 
 # Set the working directory in the container
-WORKDIR /user/src/app
+WORKDIR /usr/src/app
 
 # Copy all the files from the current directory to the working directory in the container
 # If we wanted to copy only specific files or directories, we could specify them individually
