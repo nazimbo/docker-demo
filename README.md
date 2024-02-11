@@ -70,9 +70,9 @@ Run the image using the following command:
 docker run --name <container-name> -p <local-port>:<container-port> -v $(pwd):/usr/src/app <image-name>
 ```
 
--v $(pwd):/usr/src/app tells Docker to sync the current directory on your local machine with the /usr/src/app directory inside the container.
+`-v $(pwd):/usr/src/app` tells Docker to sync the current directory on your local machine with the /usr/src/app directory inside the container.
 
-You will have an error "Cannot find module 'express'" because the node_modules folder is not copied to the container. To fix this, you can add a volume for the node_modules folder.
+You will have an error `"Cannot find module 'express'"` because the node_modules folder is not copied to the container. To fix this, you can add a volume for the node_modules folder.
 
 Run the image using the following command:
 
@@ -80,7 +80,7 @@ Run the image using the following command:
 docker run --name <container-name> -p <local-port>:<container-port> -v $(pwd):/usr/src/app -v /usr/src/app/node_modules <image-name>
 ```
 
--v /usr/src/app/node_modules tells Docker to create a volume for the node_modules folder inside the container. This will prevent the node_modules folder from being overwritten by the bind mount.
+-v /usr/src/app/node_modules tells Docker to create a volume for the node_modules folder inside the container. This will prevent the node_modules folder from being overwritten by the bind mount. It's called an anonymous volume.
 
 When you make change, you still need to restart the container to see it.
 
@@ -120,3 +120,26 @@ docker run --name <container-name> -p <local-port>:<container-port> -v $(pwd):/u
 ```
 
 Now when you make changes to the app code, nodemon will automatically restart the app inside the container.
+
+# Step 9: .dockerignore
+
+To avoid copying unnecessary files and directories to the image, you can create a .dockerignore file in the same directory as the Dockerfile.
+
+Add the following lines to the .dockerignore file:
+
+```bash
+node_modules
+Dockerfile
+Dockefile.dev
+package-lock.json
+```
+
+This will prevent the node_modules folder, the Dockerfile, the Dockerfile.dev, and the package-lock.json file from being copied to the image.
+
+# Accessing the container
+
+To access the container, use the following command:
+
+```bash
+docker exec -it <container-name> sh
+```
