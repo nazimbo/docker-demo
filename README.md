@@ -58,3 +58,16 @@ docker rm <container-name>
 ```
 
 For both below commands, you can specify more than one container name. For example, `docker stop my-container my-other-container` will stop both `my-container` and `my-other-container`.
+
+# Step 6: Syncing changes
+
+If you make changes to the app code, you'll need to rebuild the image and recreate the container to see the changes.
+To avoid this, you can use a bind mount to sync the code inside the container with the code on your local machine.
+
+Run the image using the following command:
+
+```bash
+docker run --name <container-name> -p <local-port>:<container-port> -v $(pwd):/usr/src/app <image-name>
+```
+
+-v $(pwd):/usr/src/app tells Docker to sync the current directory on your local machine with the /usr/src/app directory inside the container.
